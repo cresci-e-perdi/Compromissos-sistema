@@ -1,16 +1,14 @@
 from flask import Flask, render_template, request, send_file
 import os
-from docx import Document
+from pdfrw import PdfReader, PdfWriter, PageMerge
 from io import BytesIO
 
 app = Flask(__name__)
 
-# Rota principal que carrega o formulário
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# Rota para processar o formulário e gerar o documento
 @app.route('/gerar-documento', methods=['POST'])
 def gerar_documento():
     # Capturar os dados do formulário
@@ -26,36 +24,49 @@ def gerar_documento():
     sintome = request.form['sintome']
     tipo_pessoa = request.form['tipo_pessoa']
 
+    # Caminho para o PDF modelo
+    caminho_pdf = os.path.join('documentos', 'TERMO_DE_VALIDAÇÃO_E_PRESENÇA_NO_MÓDULO_DE_TREINAMENTO2.pdf')
 
-    # Caminho para o modelo de documento
-    caminho_modelo = os.path.join('documentos', 'TERMO_DE_VALIDAÇÃO_E_PRESENÇA_NO_MÓDULO_DE_TREINAMENTO.docx')
+    # Ler o PDF
+    pdf_reader = PdfReader(caminho_pdf)
+    pdf_writer = PdfWriter()
 
-    # Abrir o documento modelo
-    doc = Document(caminho_modelo)
+    # Mapeamento dos campos de formulário e dados
+    data_mapping = {
+        'NOMECOMPLETO': nome_completo,
+        'RG': rg,
+        'CPF': cpf,
+        'UNIDADE/TERRITORIO': unidade,
+        'MODULO': modulo,
+        'RESPONSAVEL': responsavel,
+        'CARGA': carga,
+        'DATA': data,
+        'RESUMO': resumo,
+        'SINTOME': sintome,
+        'FRANQUEADO/SOCIO/FAMILIAR': tipo_pessoa
+    }
 
-    # Substituir os placeholders no documento
-    for paragrafo in doc.paragraphs:
-        paragrafo.text = paragrafo.text.replace('[NOMECOMPLETO]', nome_completo)
-        paragrafo.text = paragrafo.text.replace('[RG]', rg)
-        paragrafo.text = paragrafo.text.replace('[CPF]', cpf)
-        paragrafo.text = paragrafo.text.replace('[UNIDADE/TERRITORIO]', unidade)
-        paragrafo.text = paragrafo.text.replace('[MODULO]', modulo)
-        paragrafo.text = paragrafo.text.replace('[RESPONSAVEL]', responsavel)
-        paragrafo.text = paragrafo.text.replace('[CARGA]', carga)
-        paragrafo.text = paragrafo.text.replace('[DATA]', data)
-        paragrafo.text = paragrafo.text.replace('[RESUMO]', resumo)
-        paragrafo.text = paragrafo.text.replace('[SINTOME]', sintome)
-        paragrafo.text = paragrafo.text.replace('[FRANQUEADO/SOCIO/FAMILIAR]', tipo_pessoa)
-        
+    # Preencher os campos de formulário no PDF
+    for page in pdf_reader.pages:
+        annotations = page['/Annots']
+        if annotations:
+            for annotation in annotations:
+                field = annotation.getObject()
+                field_name = field.get('/T')  # Nome do campo
+                if field_name in data_mapping:
+                    field.update({
+                        '/V': data_mapping[field_name],  # Substitui o valor do campo
+                        '/Ff': 1  # Define o campo como preenchido
+                    })
+        pdf_writer.addpage(page)
 
-    # Criar um arquivo temporário para salvar o documento preenchido
-    buffer = BytesIO()
-    doc.save(buffer)
-    buffer.seek(0)
+    # Escrever o novo PDF em um buffer
+    output_pdf = BytesIO()
+    pdf_writer.write(output_pdf)
+    output_pdf.seek(0)
 
-    # Enviar o arquivo preenchido para o download
-    return send_file(buffer, as_attachment=True, download_name='termo_preenchido.docx', mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    # Enviar o PDF preenchido para o navegador
+    return send_file(output_pdf, as_attachment=False, download_name='termo_preenchido.pdf', mimetype='application/pdf')
 
-# Apenas uma vez o app.run
 if __name__ == '__main__':
     app.run(debug=True)

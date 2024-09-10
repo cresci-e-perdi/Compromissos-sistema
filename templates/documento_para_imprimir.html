@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documento Gerado para Impressão</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #a57c0a;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .campo {
+            margin-bottom: 10px;
+        }
+
+        .campo strong {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Termo de Validação e Presença</h1>
+        <div class="campo"><strong>Nome Completo:</strong> {{ nome_completo }}</div>
+        <div class="campo"><strong>RG:</strong> {{ rg }}</div>
+        <div class="campo"><strong>CPF:</strong> {{ cpf }}</div>
+        <div class="campo"><strong>Unidade/Território a ser explorado:</strong> {{ unidade }}</div>
+        <div class="campo"><strong>Módulo:</strong> {{ modulo }}</div>
+        <div class="campo"><strong>Responsável:</strong> {{ responsavel }}</div>
+        <div class="campo"><strong>Carga Horária:</strong> {{ carga }}</div>
+        <div class="campo"><strong>Data:</strong> {{ data }}</div>
+        <div class="campo"><strong>Resumo:</strong> {{ resumo }}</div>
+        <div class="campo"><strong>Observações:</strong> {{ sintome }}</div>
+        <div class="campo"><strong>Tipo de Pessoa:</strong> {{ tipo_pessoa }}</div>
+    </div>
+
+    <script>
+        // Função que aciona a impressão automaticamente ao carregar a página
+        window.onload = function() {
+            window.print();
+        };
+    </script>
+</body>
+</html>
