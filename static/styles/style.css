@@ -1,23 +1,75 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     padding: 20px;
 }
 
+/* Container principal */
 .container {
     max-width: 800px;
     margin: 0 auto;
     background-color: white;
-    padding: 20px;
+    padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Título principal */
 h1 {
     text-align: center;
     margin-bottom: 20px;
+    color: #755b02;
 }
 
+/* Estilos das abas de seleção */
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    background-color: #a57c0a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.tabs button:hover {
+    background-color: #8b6407;
+}
+
+/* Estilos da seção de notificação */
+section {
+    margin-bottom: 30px;
+}
+
+section h2 {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    color: #a57c0a;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+section h2::before {
+    content: "✉️";
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+/* Estilos do formulário */
 form {
     display: flex;
     flex-direction: column;
@@ -25,22 +77,81 @@ form {
 
 label {
     margin-top: 10px;
+    font-weight: bold;
+    color: #333;
 }
 
-input, textarea, button {
-    padding: 10px;
+input[type="text"],
+input[type="date"],
+input[type="number"],
+input[type="file"],
+input[type="password"],
+textarea,
+select {
+    padding: 12px;
     margin-top: 5px;
-    border-radius: 4px;
+    border-radius: 8px;
     border: 1px solid #ccc;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    color: #555;
 }
 
-button {
-    background-color: #4CAF50;
+textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+/* Estilizando o campo select (Tipo de Pessoa) */
+select {
+    appearance: none; /* Remove a seta padrão no select */
+    background-color: white;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5H7z" fill="%23666"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px; /* Para acomodar a seta customizada */
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    border: 1px solid #a57c0a;
+    outline: none;
+    box-shadow: 0 0 5px rgba(165, 124, 10, 0.5);
+}
+
+/* Estilo do botão de envio */
+button[type="submit"] {
+    background-color: #a57c0a;
     color: white;
+    border: none;
+    padding: 12px 20px;
     cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    font-size: 16px;
 }
 
-button:hover {
-    background-color: #45a049;
+button[type="submit"]:hover {
+    background-color: #8b6407;
+}
+
+/* Estilos de responsividade */
+@media (max-width: 768px) {
+    .tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .tabs button {
+        margin-bottom: 10px;
+        width: 100%;
+    }
 }

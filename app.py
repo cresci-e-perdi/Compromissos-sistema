@@ -24,6 +24,8 @@ def gerar_documento():
     data = request.form['data']
     resumo = request.form['resumo']
     sintome = request.form['sintome']
+    tipo_pessoa = request.form['tipo_pessoa']
+
 
     # Caminho para o modelo de documento
     caminho_modelo = os.path.join('documentos', 'TERMO_DE_VALIDAÇÃO_E_PRESENÇA_NO_MÓDULO_DE_TREINAMENTO.docx')
@@ -43,6 +45,8 @@ def gerar_documento():
         paragrafo.text = paragrafo.text.replace('[DATA]', data)
         paragrafo.text = paragrafo.text.replace('[RESUMO]', resumo)
         paragrafo.text = paragrafo.text.replace('[SINTOME]', sintome)
+        paragrafo.text = paragrafo.text.replace('[FRANQUEADO/SOCIO/FAMILIAR]', tipo_pessoa)
+        
 
     # Criar um arquivo temporário para salvar o documento preenchido
     buffer = BytesIO()

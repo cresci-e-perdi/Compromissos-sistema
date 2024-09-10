@@ -37,8 +37,18 @@
             <label for="resumo">Resumo:</label>
             <textarea id="resumo" name="resumo" rows="4" required></textarea><br><br>
 
-            <label for="sintome">Sinto-me esclarecido(a) e apto(a):</label>
+            <label for="sintome">
+                Sinto-me esclarecido(a) e apto(a) ao exercício das atividades de acordo com o conteúdo exposto? Se sim, por quê? Se não, por quê?
+                :</label>
             <textarea id="sintome" name="sintome" rows="2" required></textarea><br><br>
+
+            <label for="tipo_pessoa">Tipo de Pessoa:</label>
+            <select id="tipo_pessoa" name="tipo_pessoa" required>
+                <option value="Franqueado">Franqueado</option>
+                <option value="Socio">Sócio</option>
+                <option value="Familiar">Familiar</option>
+            </select>
+            <br><br>
 
             <button type="submit">Baixar Documento</button>
         </form>
